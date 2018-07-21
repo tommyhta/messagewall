@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static%}
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/login/main.css' %}">
+    <title>Login</title>     
+</head>
+<body>
+    <div class="container">
+        <h1 class="welcom">Login and Registration</h1>
+<!-- registration box         -->
+        <div class="regis">
+            <h2>Register</h2>
+            <form action="/register" method="post">
+                {% csrf_token %}
+                <label for="first_name">First name:</label>
+                {%  for message in messages %}
+                    {% if 'first_name' in message.tags %}
+                        <span class="error">{{message}}</span>
+                    {% endif %}
+                {% endfor %}               
+                <br>
+                <input type="text" class="regi" name="first_name" placeholder="First name">
+                <br>
+                <label for="last_name">Last name:</label>
+                {%  for message in messages %}
+                    {% if 'last_name' in message.tags %}
+                        <span class="error">{{message}}</span>
+                    {% endif %}
+                {% endfor %}
+                <br>
+                <input type="text" class="regi" name="last_name" placeholder="Last name">
+                <br>
+                <label for="email">Email:</label>
+                {%  for message in messages %}
+                    {% if 'email' in message.tags %}
+                        <span class="error">{{message}}</span>
+                    {% endif %}
+                {% endfor %}
+                <br>
+                <input type="text" class="regi" name="email" placeholder="email">
+                <br>
+                <label for="password">Password:</label>
+                {% for message in messages %}
+                    {% if 'password' in message.tags %}
+                        <span class="error">{{message}}</span>
+                    {% endif %}
+                {% endfor %}
+                <br>
+                <input type="password" class="regi" name="password" placeholder="Password">
+                <br>
+                <label for="passwordCon">Password Confirmation:</label>
+                {%  for message in messages %}
+                    {% if 'confirm' in message.tags %}
+                        <span class="error">{{message}}</span>
+                    {% endif %}
+                {% endfor %}    
+                <br>
+                <input type="password" class="regi" name="passwordCon" placeholder="Please confirm your password">
+                <br>
+                <input class="btn" type="submit" value="Register">
+            </form>
+        </div>
+<!-- registration box end -->
+<!-- log in box -->
+        <div class="login">
+            <h2>Login</h2>
+            {%  for message in messages %}
+                {% if 'bad' in message.tags %}
+                    <span class="error">{{message}}</span>
+                {% endif %}
+            {% endfor %} 
+            <form action="/login" method="post">
+                {% csrf_token %}
+                <label for="emaillogin">Email:</label>
+                {%  for message in messages %}
+                    {% if 'loginE' in message.tags %}
+                        <span class="error">{{message}}</span>
+                    {% endif %}
+                {% endfor %} 
+                <br>
+                <input type="text" name="emaillogin" placeholder="email" class="regi">
+                <br>
+                <label for="passwordlogin">Password:</label>
+                {%  for message in messages %}
+                    {% if 'needed' in message.tags %}
+                        <span class="error">{{message}}</span>
+                    {% endif %}
+                {% endfor %} 
+                <br>
+                <input type="password" class="regi" name="passwordlogin" placeholder="Password">
+                <br>
+                <input type="submit" value="Login!" class="btn">
+            </form>
+        </div>
+<!-- log in box end -->
+    </div>
+</body>
+</html>
