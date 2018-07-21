@@ -251,7 +251,7 @@ div.header{
                         {% endif %}
                         <hr>
                         
-                        {% for u in comment reversed %}
+                        {% for u in comment %}
                             {% if u.posted == i %}
                             <div class="com">
                                 <h3 class="com">{{u.written.first_name}} {{u.written.last_name}}</h3>
