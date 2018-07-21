@@ -13,7 +13,7 @@
         <h1 class="welcom">Login and Registration</h1>
 <!-- registration box         -->
         <div class="regis">
-            <h2>Register</h2>
+            <h2>Register!</h2>
             <form action="/register" method="post">
                 {% csrf_token %}
                 <label for="first_name">First name:</label>
@@ -67,7 +67,7 @@
 <!-- registration box end -->
 <!-- log in box -->
         <div class="login">
-            <h2>Login</h2>
+            <h2>Login!</h2>
             {%  for message in messages %}
                 {% if 'bad' in message.tags %}
                     <span class="error">{{message}}</span>
