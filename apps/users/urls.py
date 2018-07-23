@@ -13,5 +13,12 @@ urlpatterns = [
     url(r'^changetype$',views.changetype),
     url(r'^deleteuser$', views.deleteuser),
 # ---------------------------------------- rendering admin page and admin functions
-    url(r'^user/(?P<id>\d+)$', views.user, name="user")
+    url(r'^user/(?P<id>\d+)$', views.user, name="user"),
+# ---------------------------------------- below this is for the exam:
+    url(r'^addquote$', views.addquote),
+    url(r'^deletequote$', views.deletequote),
+    url(r'^user/(?P<id>\d+)/edit$', views.edituser, name="edituser"),
+    url(r'changeuser$', views.changeuser),
+    url(r'changepassword$', views.changepassword),
+    url(r'like/(?P<id>\d+)$', views.like)
 ]

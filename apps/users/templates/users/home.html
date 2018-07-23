@@ -19,6 +19,21 @@
         a{
             text-decoration: none!important;
         }
+{#   ------------------------------------------------------------------------------------------------------------------------        #}
+        div.row{
+            margin-top: 20px;
+        }
+        blockquote{
+            margin-left: 20px;
+        }
+        p.need{
+            display: inline-block
+        }
+        form.form{
+            display: inline-block;
+        }
+
+
     </style>
     <script>
     $(document).ready(function(){
@@ -37,6 +52,59 @@
                 {% endif %}
             </div>
         </nav>
+{#   ------------------------------------------------------------------------------------------------------------------------        #}
+
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Quotes</h3>
+                {% for i in quotes reversed %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="text-capitalize">{{i.written.name}}</h5>
+                        <blockquote> {{i.content}} </blockquote>
+                        <p>Posted by: <a class="text-capitalize" href="/user/{{i.uploaded.id}}">{{i.uploaded.first_name}} {{i.uploaded.last_name}}</a> </p>
+                        {% if i.uploaded.id == request.session.userID %}
+                        <form action="/deletequote" method="post">
+                        {% csrf_token %}
+                            <input type="hidden" name="quote" value="{{i.id}}">
+                            <input class="btn-sm float-right"type="submit" value="delete">
+                        </form>
+                        {% endif %}
+                        <p class="need">{{i.likes.count}} people like this</p>
+                        <form class="form" action="/like/{{i.id}}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Like!">
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+            <div class="col-md4">
+                <h3>Add a quote!</h3>
+                <form action="/addquote" method="post">
+                    {% csrf_token %}
+                    <label for="author">Author:</label>
+                    <input type="text" name="author"><br>
+                    <label for="quote">Quote:</label>
+                    <textarea name="quote"  cols="30" rows="5"></textarea><br>
+                    <input type="submit" value="Add!">
+                </form>
+                {% for message in messages %}
+                    {% if 'author' in message.tags %}
+                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                    {% endif %}
+                {% endfor %}
+                <br>
+                {% for message in messages %}
+                    {% if 'quote' in message.tags %}
+                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+        </div>
+
     </div>
 </body>
 </html>

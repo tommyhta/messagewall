@@ -34,8 +34,26 @@
             margin: 5px 5px 5px 50px;
         }
         div.button{
-            margin: 20px 5px 0 300px;
+            margin: 20px 5px 0 10px;
         }
+
+
+
+        div.quotes{
+            width: 70%;
+            margin-left: 70px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        div.quotes p{
+            margin: 0;
+        }
+        div.quotes blockquote{
+            margin-left: 10px;
+        }
+
+
+
     </style>
     <script>
     $(document).ready(function(){
@@ -67,9 +85,32 @@
                 {% endif %}
             </p>
             <p>Profile Created On: {{user.created_at}}</p>
+
+
+            <p>Quotes uploaded:</p>
+                {% for i in quotes %}
+                <div class="quotes">
+                    <p class=><strong>{{i.written.name}}</strong></p> 
+                    <blockquote>{{i.content}}</blockquote>
+                </div>
+                {% if i.uploaded.id == request.session.userID %}
+                <form action="/deletequote" method="post">
+                {% csrf_token %}
+                    <input type="hidden" name="quote" value="{{i.id}}">
+                    <input class="btn-sm float-right"type="submit" value="delete">
+                </form>
+                        
+                {% endif %}
+                {% endfor %}
+    
+
+
+
+
+
             {% if user.id == request.session.userID %}
             <div class="button">
-                <input type="submit" class="btn btn-secondary" value="Edit Info">
+                <a href="/user/{{user.id}}/edit" class="btn btn-secondary">Edit Info</a>
                 <input type="submit" class="btn btn-secondary" value="Change Password">
             </div>
             {% else %}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>The name of the Project</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">    <title>Welcome</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <style>
+        .btn-sm{
+            height: 25px;
+            padding: 3px;
+            font-size: 12px;
+            margin: 0;
+        }
+        a{
+            text-decoration: none!important;
+        }
+        div.editinfo{
+            width: 500px;
+            margin: 50px auto;
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 10px;  
+        }
+        div.editinfo form{
+            display: inline-block;
+            vertical-align: top;
+            margin: 25px;
+        }
+    </style>
+    <script>
+    $(document).ready(function(){
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="/welcome">Project Name</a>
+            <div>
+                <span class="h6 text-light m-0">Hello, <a class="text-light" href="/user/{{request.session.userID}}">{{request.session.name}}</a>  |  </span>
+                <a href="/logout" class="btn btn-sm btn-dark">Log out</a>
+                {% if request.session.user == 9 %}
+                <a href="/admin" class="btn btn-sm btn-secondary">Admin</a>
+                {% endif %}
+            </div>
+        </nav>
+
+        <div class="editinfo">
+            <form action="/changeuser" method="post">
+                {% csrf_token %}
+                <label for="first_name">First Name:</label><br>
+                <input type="text" name="first_name" value="{{user.first_name}}"><br>
+                <label for="last_name">Last Name:</label><br>
+                <input type="text" name="last_name" value="{{user.last_name}}"><br>
+                <label for="email">Email:</label><br>
+                <input type="text" name="email" value="{{user.email}}"><br>
+                <input type="submit" value="Change">
+            </form>
+            <form action="/changepassword" method="post">
+                {% csrf_token %}
+                <label for="passwrd">New Password:</label><br>
+                <input type="password" name="password"><br>
+                <label for="confirm">Confirm your password:</label><br>
+                <input type="password" name="confirm"><br>
+                <input type="submit" value="Change your password">
+            </form>
+            {% for message in messages %}
+            {% if 'one' in message.tags %}
+                <p class="small text-danger ml-3 ">{{message}}</p>
+            {% endif %}
+            {% endfor %}
+            {% for message in messages %}
+            {% if 'two' in message.tags %}
+                <p class="small text-danger ml-3 ">{{message}}</p>
+            {% endif %}
+            {% endfor %}
+            {% for message in messages %}
+            {% if 'three' in message.tags %}
+                <p class="small text-danger ml-3 ">{{message}}</p>
+            {% endif %}
+            {% endfor %}
+            {% for message in messages %}
+            {% if 'four' in message.tags %}
+                <p class="small text-danger ml-3 ">{{message}}</p>
+            {% endif %}
+            {% endfor %}
+            {% for message in messages %}
+            {% if 'five' in message.tags %}
+                <p class="small text-danger ml-3 ">{{message}}</p>
+            {% endif %}
+            {% endfor %}
+        </div>
+ 
+
+
+    </div>
+</body>
+</html>
+
+

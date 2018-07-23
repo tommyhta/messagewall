@@ -56,3 +56,19 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=UserManager()
+
+# ----------------------------------------BELOW ARE THINGS FOR THE EXAM ----------------------------------------
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    added = models.ForeignKey(User, related_name="added_authors")
+    
+
+class Quote(models.Model):
+    content = models.CharField(max_length=255)
+    written = models.ForeignKey(Author, related_name="quotes")
+    uploaded = models.ForeignKey(User, related_name="added_quotes")
+    likes = models.ManyToManyField(User, related_name="liked_quotes")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
