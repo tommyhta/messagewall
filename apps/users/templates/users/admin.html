@@ -44,7 +44,7 @@
         <nav class="navbar navbar-dark bg-dark">
             <a class="navbar-brand" href="/welcome">Project Name</a>
             <div>
-                <span class="h6 text-light m-0 text-capitalize">Hello, <a href="/user/{{request.session.userID}}">{{request.session.name}}</a>  |  </span>
+                <span class="h6 text-light m-0 text-capitalize">Hello, <a class="text-light" href="/user/{{request.session.userID}}">{{request.session.name}}</a>  |  </span>
                 <a href="/logout" class="btn btn-sm btn-dark">Log out</a>
                 {% if request.session.user == 9 %}
                 <a href="#" class="btn btn-sm btn-secondary">Admin</a>
@@ -73,7 +73,7 @@
                 <tbody>
                     {% for i in users %}
                         <tr>
-                            <td><a href="/user/{{i.id}}">{{i.first_name}} {{i.last_name}}</a></td>
+                            <td><a class="text-primary" href="/user/{{i.id}}">{{i.first_name}} {{i.last_name}}</a></td>
                             <td>{{i.email}}</td>
                             <td>{{i.created_at}}</td>
                             <td>

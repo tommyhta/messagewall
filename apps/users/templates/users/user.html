@@ -12,7 +12,6 @@
     <style>
         .btn-sm{
             height: 25px;
-            width: 50px;
             padding: 3px;
             font-size: 12px;
             margin: 0;
@@ -48,7 +47,7 @@
         <nav class="navbar navbar-dark bg-dark">
             <a class="navbar-brand" href="/welcome">Project Name</a>
             <div>
-                <span class="h6 text-light m-0">Hello, <a href="/user/{{request.session.userID}}">{{request.session.name}}</a>  |  </span>
+                <span class="h6 text-light m-0">Hello, <a class="text-light" href="/user/{{request.session.userID}}">{{request.session.name}}</a>  |  </span>
                 <a href="/logout" class="btn btn-sm btn-dark">Log out</a>
                 {% if request.session.user == 9 %}
                 <a href="/admin" class="btn btn-sm btn-secondary">Admin</a>

@@ -47,7 +47,7 @@ def admin(request):
             else:
                 context = {
                     "user" : user,
-                    "users" : User.objects.all()
+                    "users" : User.objects.order_by('-user_level')
                 }
                 return render(request,"users/admin.html", context)
 
