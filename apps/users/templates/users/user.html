@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User Profile: {{user.first_name}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">    <title>Welcome</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <style>
+        .btn-sm{
+            height: 25px;
+            width: 50px;
+            padding: 3px;
+            font-size: 12px;
+            margin: 0;
+        }
+        a{
+            text-decoration: none!important;
+        }
+        div.profile{
+            width: 600px;
+            border: 1px solid black;
+            border-radius: 10px;
+  
+            margin: 50px auto;
+            padding: 20px;
+        }
+        h4{
+            margin-bottom: 20px;
+        }
+        p{
+            margin: 5px 5px 5px 50px;
+        }
+        div.button{
+            margin: 20px 5px 0 300px;
+        }
+    </style>
+    <script>
+    $(document).ready(function(){
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="/welcome">Project Name</a>
+            <div>
+                <span class="h6 text-light m-0">Hello, <a href="/user/{{request.session.userID}}">{{request.session.name}}</a>  |  </span>
+                <a href="/logout" class="btn btn-sm btn-dark">Log out</a>
+                {% if request.session.user == 9 %}
+                <a href="/admin" class="btn btn-sm btn-secondary">Admin</a>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="profile">
+            <h4 class="text-capitalize">{{user.first_name}} {{user.last_name}}'s User Profile</h4>
+            <p>First Name: {{user.first_name}}</p>
+            <p>Last Name: {{user.last_name}}</p>
+            <p>Email Address: {{user.email}}</p>
+            <p>User Type: 
+                {% if user.user_level == 9 %}
+                Admin User
+                {% else %}
+                Standard User
+                {% endif %}
+            </p>
+            <p>Profile Created On: {{user.created_at}}</p>
+            {% if user.id == request.session.userID %}
+            <div class="button">
+                <input type="submit" class="btn btn-secondary" value="Edit Info">
+                <input type="submit" class="btn btn-secondary" value="Change Password">
+            </div>
+            {% else %}
+            <div class="button">
+                <input type="submit" class="btn btn-secondary" value="Send {{user.first_name}} a Message">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

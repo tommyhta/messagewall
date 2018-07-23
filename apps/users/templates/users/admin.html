@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">    <title>Welcome</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <style>
+        .btn-sm{
+            height: 25px;
+            padding: 3px;
+            font-size: 12px;
+            margin: 0;
+        }
+        a{
+            text-decoration: none!important;
+        }
+        table{
+            width:80%!important;
+            margin: auto;
+        }
+        form{
+            display: inline-block;
+        }
+        #modalName{
+            margin-left: 100px;
+            font-weight: 700;
+        }
+        div.space{
+            height:50px;
+        }
+    </style>
+    <script>
+    $(document).ready(function(){
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="/welcome">Project Name</a>
+            <div>
+                <span class="h6 text-light m-0 text-capitalize">Hello, <a href="/user/{{request.session.userID}}">{{request.session.name}}</a>  |  </span>
+                <a href="/logout" class="btn btn-sm btn-dark">Log out</a>
+                {% if request.session.user == 9 %}
+                <a href="#" class="btn btn-sm btn-secondary">Admin</a>
+                {% endif %}
+            </div>
+        </nav>
+        <section class="mt-5">
+    
+            <div class="space">
+                    {% for message in messages %}
+                    {% if 'cantdothat' in message.tags %}
+                        <span class="small text-danger ml-3 float-right ">{{message}}</span>
+                    {% endif %}
+                    {% endfor %}
+            </div>
+            <table class="table table-hover ">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Full Name</th>
+                        <th>email</th>
+                        <th>Created At</th>
+                        <th>User Type</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in users %}
+                        <tr>
+                            <td><a href="/user/{{i.id}}">{{i.first_name}} {{i.last_name}}</a></td>
+                            <td>{{i.email}}</td>
+                            <td>{{i.created_at}}</td>
+                            <td>
+                                {% if i.user_level == 9 %}
+                                Admin
+                                {% else %}
+                                User
+                                {% endif %}
+                            </td>
+                            <td>
+         
+                                <form action="/changetype" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="userID" value="{{i.id}}">
+                                    <input type="submit" class="btn btn-sm btn-secondary" value="Change User Type">
+                                </form>
+                                <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#delete{{i.id}}">delete</button>
+                                <div class="modal fade" id="delete{{i.id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Delete Confirmation</h5>
+                                                <button class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>                                               
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete user:</p>
+                                                <p id="modalName">{{i.first_name}} {{i.last_name}}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <form action="/deleteuser" method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="userID" value="{{i.id}}">
+                                                    <input type="submit" class="btn btn-dark" value="Delete">
+                                                </form>                                           
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
+

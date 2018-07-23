@@ -4,7 +4,7 @@ from .models import *
 import bcrypt
 
 # Create your views here.
-# ALL RENDERING
+# ----------------------------------------ALL RENDERING----------------------------------------
 def index(request):
     return render(request,"users/index.html")
 
@@ -23,12 +23,58 @@ def welcome(request):
             return redirect('/breached')
         else:
 # clear to proceed
-            return HttpResponse("Welcome")
+            context = {
+                "user" : User.objects.get(id=request.session['userID'])
+            }
+            return render (request,"users/home.html", context)
+
+def admin(request):
+    if 'userID' not in request.session:
+        request.session.clear()
+        return redirect("/")
+    else:
+        if request.session['user'] != 9:
+            request.session.clear()
+            return redirect("/breached")
+        else:
+            user = User.objects.get(id=request.session['userID'])
+            if request.session['sID'] != hash(user.created_at):
+                request.session.clear()
+                return redirect('/breached')
+            if request.session['user'] != user.user_level:
+                request.session.clear()
+                return redirect('/breached')
+            else:
+                context = {
+                    "user" : user,
+                    "users" : User.objects.all()
+                }
+                return render(request,"users/admin.html", context)
 
 def breached(request):
+    print("*"*80,"\n","Security Breached","\n", "*"*80)
+    request.session.clear()
     return HttpResponse("You do not have permission to perform this action.")
+
+def user(request,id):
+    if 'userID' not in request.session:
+        request.session.clear()
+        return redirect("/")
+    else:
+        user = User.objects.get(id=request.session['userID'])
+        if request.session['sID'] != hash(user.created_at):
+            request.session.clear()
+            return redirect('/breached')
+        if request.session['user'] != user.user_level:
+            request.session.clear()
+            return redirect('/breached')
+        else:
+            context = {
+            "user" : User.objects.get(id=id) 
+            }
+            return render (request, "users/user.html", context)
 # ----------------------------------------END ALL RENDERING----------------------------------------
-# LOGIN AND REGISTRATION
+# ----------------------------------------LOGIN AND REGISTRATION----------------------------------------
 def register(request):
     if request.method == 'POST':
         error = User.objects.validator(request.POST)
@@ -82,7 +128,41 @@ def login(request):
     else:
         request.session.clear()
         return redirect("/")
-# END LOGIN AND REGISTRATION
+# ----------------------------------------END LOGIN AND REGISTRATION----------------------------------------
 def logout(request):
     request.session.clear()
     return redirect("/")
+# ----------------------------------------ADMIN FORM----------------------------------------
+def changetype(request):
+    if request.method == "POST":
+        user = User.objects.get(id = request.POST['userID'])
+        if user.id == request.session["userID"]:
+            messages.error(request,"You maynot change your own User Type", extra_tags="cantdothat")
+            return redirect("/admin")
+        else:
+            if user.user_level == 1:
+                user.user_level = 9
+                user.save()
+                return redirect("/admin")
+            if user.user_level == 9:
+                user.user_level = 1
+                user.save()
+                return redirect("/admin")
+    else:
+        request.session.clear()
+        return redirect("/breached")
+
+def deleteuser(request):
+    if request.method == "POST":
+        user = User.objects.get(id = request.POST['userID'])
+        if user.user_level == 9:
+            messages.error(request,"You maynot delete another Admin user", extra_tags="cantdothat")
+            return redirect ("/admin")
+        else:
+            user.delete()
+            return redirect ("/admin")
+     
+    else:
+        request.session.clear()
+        return redirect("/breached")
+# ----------------------------------------ADMIN FORM----------------------------------------
